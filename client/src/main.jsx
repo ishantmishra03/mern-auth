@@ -10,7 +10,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AppContextProvider>
       <BrowserRouter>
-      <ToastContainer />
+      <ToastContainer autoClose={1500}/>
         <App />
       </BrowserRouter>
     </AppContextProvider>

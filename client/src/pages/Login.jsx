@@ -19,10 +19,12 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [sendingReq, setSendingReq] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setSendingReq(true);
       if (method === "Sign Up") {
         const { data } = await axios.post("/api/auth/register", {
           name,
@@ -55,6 +57,7 @@ const Login = () => {
       setName("");
       setPassword("");
       setEmail("");
+      setSendingReq(false);
     }
   };
 
@@ -115,14 +118,17 @@ const Login = () => {
               </div>
 
               <button
+                disabled={sendingReq}
                 type="submit"
-                className="w-full py-3 bg-gradient-to-tr from-[#1E3A8A] to-[#7C3AED]  rounded-full font-semibold hover:cursor-pointer transition"
+                className={`w-full py-3   rounded-full font-semibold hover:cursor-pointer transition ${sendingReq ? "bg-gray-500 " : "bg-gradient-to-tr from-[#1E3A8A] to-[#7C3AED]"}`}
               >
-                {method === "Sign Up" ? "Sign Up" : "Login"}
+                {!sendingReq && (  method === "Sign Up" ? "Sign Up" : "Login")}
+                {sendingReq && (  method === "Sign Up" ? "Signing Up..." : "Logging...")}
+
               </button>
             </form>
 
-            {/* Toggle Method */}
+            
             <p className="mt-6 text-center text-sm text-slate-400">
               {method === "Sign Up"
                 ? "Already have an account? "
@@ -137,6 +143,12 @@ const Login = () => {
                 {method === "Sign Up" ? "Login" : "Sign Up"}
               </button>
             </p>
+
+            
+              {method === "Login" && (
+               <p onClick={() => navigate("/reset-password")} className="cursor-pointer mt-2 text-center text-sm text-blue-500 hover:border-b hover:border-b-white/10 transition-all">Forgot Password ?</p>
+              )}
+            
           </div>
         </main>
       </div>
