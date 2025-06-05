@@ -13,25 +13,31 @@ const app = express();
 // Connect to DB
 connectDB();
 
-// Allowed frontend origins
-const allowedOrigins = ['http://localhost:5173'];
+
+const allowedOrigins = process.env.CORS_ORIGINS?.split(',') || [];
 
 // Middleware
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 
-// API Routes
+// Routes
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
 app.get('/', (req, res) => {
-  res.send("Server working ✅");
+  res.send("✅ Server is up and running!");
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

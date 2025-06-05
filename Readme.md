@@ -68,6 +68,7 @@ NODE_ENV=" "
 MAILJET_API_KEY=" "
 MAILJET_API_SECRET=" "
 SENDER_EMAIL=" "
+CORS_ORIGINS=" "
 ```
 ## Frontend ( .env )
 ```.env
